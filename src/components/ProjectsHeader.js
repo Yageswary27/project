@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { LayoutGrid, List } from "lucide-react"; // Lucide icons
-
-const ProjectsHeader = ({ totalProjects, onAddProject, onSearch, onSortChange, onViewToggle, viewType }) => {
+const ProjectsHeader = ({ totalProjects, onSearch, onSortChange, onViewToggle, viewType }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortOption, setSortOption] = useState("name");
 
@@ -61,14 +60,6 @@ const ProjectsHeader = ({ totalProjects, onAddProject, onSearch, onSortChange, o
             <List size={18} />
           </button>
         </div>
-
-        {/* Add New Project Button */}
-        <button
-          onClick={onAddProject}
-          className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-all"
-        >
-          + Add New Project
-        </button>
       </div>
     </div>
   );

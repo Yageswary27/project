@@ -1,49 +1,44 @@
 import React, { useState } from "react";
 import ProjectCard from "./ProjectCard";
+import Pagination from "./Pagination";
 
-const ProjectsList = ({ projects = [], viewType }) => {
+// Sample project list (replace with real API data)
+const allProjects = [...Array(18)].map((_, i) => ({
+  name: `Project ${i + 1}`,
+  url: `https://example${i + 1}.com`,
+  favicon: "https://www.google.com/favicon.ico",
+  status: i % 2 === 0 ? "Active" : "Archived",
+  score: Math.floor(Math.random() * 100),
+  lastScan: "2025-04-08",
+}));
+
+const ProjectsList = ({ viewType = "grid" }) => {
+  const itemsPerPage = 6;
   const [currentPage, setCurrentPage] = useState(1);
-  const projectsPerPage = 6;
 
-  const indexOfLastProject = currentPage * projectsPerPage;
-  const indexOfFirstProject = indexOfLastProject - projectsPerPage;
-  
-  // Safeguard to ensure projects is an array
-  const currentProjects = Array.isArray(projects)
-    ? projects.slice(indexOfFirstProject, indexOfLastProject)
-    : [];
-
-  const totalPages = Math.ceil(projects.length / projectsPerPage);
+  const totalPages = Math.ceil(allProjects.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const currentProjects = allProjects.slice(startIndex, startIndex + itemsPerPage);
 
   return (
-    <div className="mt-6">
-      {/* Grid/List Wrapper */}
-      <div className={`flex flex-wrap gap-4 ${viewType === "list" ? "flex-col" : ""}`}>
-        {currentProjects.map((project) => (
-          <ProjectCard key={project.id} project={project} viewType={viewType} />
+    <div className="px-4">
+      {/* Project Cards */}
+      <div
+        className={`flex flex-wrap gap-4 ${
+          viewType === "grid" ? "" : "flex-col"
+        }`}
+      >
+        {currentProjects.map((project, index) => (
+          <ProjectCard key={index} project={project} viewType={viewType} />
         ))}
       </div>
 
-      {/* Pagination Controls */}
-      <div className="mt-6 flex justify-center gap-2">
-        <button
-          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-          disabled={currentPage === 1}
-          className="px-3 py-1 border rounded disabled:opacity-50"
-        >
-          Prev
-        </button>
-
-        <span className="px-3 py-1">{currentPage} / {totalPages}</span>
-
-        <button
-          onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-          disabled={currentPage === totalPages}
-          className="px-3 py-1 border rounded disabled:opacity-50"
-        >
-          Next
-        </button>
-      </div>
+      {/* Pagination */}
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={(page) => setCurrentPage(page)}
+      />
     </div>
   );
 };
