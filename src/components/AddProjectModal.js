@@ -7,6 +7,7 @@ const AddProjectModal = ({ isOpen, onClose, onCreate }) => {
   const [scanTypes, setScanTypes] = useState([]);
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [error, setError] = useState("");
+  const [submittedProject, setSubmittedProject] = useState(null); // To hold the submitted project data
 
   const toggleScanType = (type) => {
     setScanTypes((prev) =>
@@ -33,14 +34,15 @@ const AddProjectModal = ({ isOpen, onClose, onCreate }) => {
       scanTypes,
     };
 
+    // Call onCreate (if needed in parent) and set submitted project
     onCreate(projectData);
-    onClose();
+    setSubmittedProject(projectData); // Set the submitted project data
     setProjectName("");
     setUrl("");
     setScanTypes([]);
     setProjectType("Website");
     setShowAdvanced(false);
-    setError("");
+    setError(""); // Clear error message after successful submission
   };
 
   if (!isOpen) return null;
@@ -127,6 +129,16 @@ const AddProjectModal = ({ isOpen, onClose, onCreate }) => {
             Create Project
           </button>
         </div>
+
+        {/* Display Submitted Project Data */}
+        {submittedProject && (
+          <div className="mt-6 p-4 border-t border-gray-300">
+            <h3 className="font-semibold text-lg">Submitted Project Data:</h3>
+            <pre className="mt-2 bg-gray-50 p-3 rounded-md">
+              {JSON.stringify(submittedProject, null, 2)}
+            </pre>
+          </div>
+        )}
       </div>
     </div>
   );

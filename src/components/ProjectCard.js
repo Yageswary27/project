@@ -1,10 +1,6 @@
 import React from "react";
 
 const ProjectCard = ({ project, viewType }) => {
-  // Remove the unnecessary score definition
-  // const score = 100; 
-
-  // Use project.score directly
   const scoreColor =
     project?.score >= 80
       ? "text-green-600"
@@ -14,49 +10,63 @@ const ProjectCard = ({ project, viewType }) => {
 
   return (
     <div
-      className={`border rounded-lg p-4 shadow-sm bg-white ${
+      className={`border border-blue-100 rounded-2xl p-5 shadow-md bg-white transition-transform duration-200 hover:scale-[1.01] ${
         viewType === "grid" ? "w-full sm:w-[48%] lg:w-[31%]" : "w-full"
       }`}
     >
-      <div className="flex items-center justify-between mb-2">
+      {/* Header */}
+      <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
           {project?.favicon && (
-            <img src={project.favicon} alt="favicon" className="w-5 h-5" />
+            <img
+              src={project.favicon}
+              alt="favicon"
+              className="w-6 h-6 rounded-sm"
+            />
           )}
-          <h3 className="font-semibold text-lg">{project?.name}</h3>
+          <h3 className="font-semibold text-lg text-gray-800">
+            {project?.name}
+          </h3>
         </div>
         <span
-          className={`text-xs px-2 py-1 rounded-full ${
+          className={`text-xs px-2 py-1 rounded-full font-medium ${
             project?.status === "Active"
-              ? "bg-green-100 text-green-600"
-              : "bg-gray-200 text-gray-600"
+              ? "bg-green-100 text-green-700"
+              : "bg-gray-100 text-gray-500"
           }`}
         >
           {project?.status}
         </span>
       </div>
 
-      <p className="text-sm text-blue-600 break-all mb-2">{project?.url}</p>
+      {/* URL */}
+      <p className="text-sm text-blue-600 break-all mb-2 font-medium">
+        {project?.url}
+      </p>
 
+      {/* Last Scan */}
       <p className="text-sm text-gray-500 mb-2">
-        Last Scan: {project?.lastScan}
+        Last Scan:{" "}
+        <span className="font-medium text-gray-700">{project?.lastScan}</span>
       </p>
 
-      <p className={`text-md font-semibold mb-2 ${scoreColor}`}>
-        Score: {project?.score}% {/* Using project.score */}
+      {/* Score */}
+      <p className={`text-base font-semibold mb-4 ${scoreColor}`}>
+        Score: {project?.score}%
       </p>
 
+      {/* Action Buttons */}
       <div className="flex gap-2 flex-wrap">
-        <button className="bg-blue-500 text-white px-3 py-1 rounded text-sm">
+        <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1.5 rounded-md text-sm font-medium shadow-sm">
           Scan
         </button>
-        <button className="bg-green-500 text-white px-3 py-1 rounded text-sm">
+        <button className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-1.5 rounded-md text-sm font-medium shadow-sm">
           View
         </button>
-        <button className="bg-yellow-500 text-white px-3 py-1 rounded text-sm">
+        <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-1.5 rounded-md text-sm font-medium shadow-sm">
           Edit
         </button>
-        <button className="bg-red-500 text-white px-3 py-1 rounded text-sm">
+        <button className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-1.5 rounded-md text-sm font-medium shadow-sm">
           Archive
         </button>
       </div>
